@@ -21,7 +21,11 @@ class Task(models.Model):
     is_recurring = models.BooleanField(default=False)
     reminder = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField(auto_now=True)
+    # By default will be in a list of current tasks
+    # This will move the task to a finished group if true
     is_done = models.BooleanField(default=False)
+    # This will move the task to a group of unfinished group of tasks not finished past the due date that needs to be finished 
+    is_pending = models.BooleanField(default=False)
     #user_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
