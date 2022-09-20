@@ -1,0 +1,14 @@
+{% extends "tag/base.html" %}
+
+{% block title %}New Tag{% endblock %}
+
+{% block content %}
+<h1>New Tag</h1>
+<form action="tag/create_tag" method="post">
+    {% csrf_token %}
+    <input type="text" value="name"/>
+    <input type="submit"/>
+</form>
+<a href="/tag">All Tags</a>
+<!--<a href="/tag/delete_tag/{{tag.name}}">Remove this Tag</a>-->
+{% endblock %}

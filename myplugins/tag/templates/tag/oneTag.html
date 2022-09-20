@@ -1,0 +1,9 @@
+{% extends "tag/base.html" %}
+
+{% block title %}{{tag}}{% endblock %}
+
+{% block content %}
+<h1>{{tag}}</h1>
+<a href="/tag">All Tags</a>
+<!--<a href="/tag/delete_tag/{{tag.name}}">Remove this Tag</a>-->
+{% endblock %}

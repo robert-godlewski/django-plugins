@@ -14,8 +14,9 @@ Plugins to create later:
 The tag app is really useful for SEO purposes and grouping content together.  It can be used for blogs, stores, crm, cms, etc.
 
 ## Todos:
-1. add in full CRUD
-2. serialize the data
+1. Fix the bug in createTag in views
+2. add in full CRUD
+3. serialize the data
 
 # crm
 This is a client relation manager app to help keep track of several things.
