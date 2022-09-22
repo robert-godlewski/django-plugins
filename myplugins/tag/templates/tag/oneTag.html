@@ -1,0 +1,10 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{tag}}{% endblock %}
+
+{% block content %}
+<h1>{{tag.name}}</h1>
+<a href="/">All Tags</a>
+<a href="/delete_tag/{{tag.name}}">Delete Tag</a>
+<!--<a href="/tag/delete_tag/{{tag.name}}">Remove this Tag</a>-->
+{% endblock %}

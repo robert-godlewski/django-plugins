@@ -1,8 +1,10 @@
 # Summary
 This is a list of custom made plugins that Robert Godlewski created to make developing in Django easier.
 
+Packages are not directly included here on the repository.
+
 Plugins in current development:
-* tag
+* tag - version 0.1
 * crm
 
 Plugins to create later:
@@ -10,12 +12,14 @@ Plugins to create later:
 * store
 * user - I think that this one exists but might need to add in some features
 
+templates/admin directory in the myplugins directory now has the html for the admin and base html look.
+
 # tag
+The package is called django-tags.
+
 The tag app is really useful for SEO purposes and grouping content together.  It can be used for blogs, stores, crm, cms, etc.
 
-## Todos:
-1. add in full CRUD
-2. serialize the data
+In this app you are able to create, read, and destroy tags in the database.  No updating once it's made, it's made.
 
 # crm
 This is a client relation manager app to help keep track of several things.

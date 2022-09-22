@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+
+{% block title %}New Tag{% endblock %}
+
+{% block content %}
+<h1>New Tag</h1>
+<form action="/create_tag/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!--<input type="text" value="name"/>-->
+    {{form}}
+    <button>Submit</button>
+</form>
+<a href="/">All Tags</a>
+{% endblock %}
