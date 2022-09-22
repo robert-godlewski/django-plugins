@@ -5,7 +5,7 @@
 {% block content %}
 <h1>List of all tags:</h1>
 {% for tag in tags %}
-<a href="{{tag.name}}">#{{tag}}</a>
+<a href="/one_tag/{{tag.name}}">#{{tag}}</a>
 {% endfor %}
 <a href="/create_tag/">New Tag</a>
 {% endblock %}

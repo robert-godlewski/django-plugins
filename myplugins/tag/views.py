@@ -35,16 +35,13 @@ def createTag(request):
         form = TagForm()
     return render(request, template_name='tag/createTag.html', context={'form': form})
 
-def updateTag(request, name):
-    print(request)
-    print(name)
-    tag = Tag.objects.get(name=name)
-    print(tag)
-    return oneTag(request, name)
-
 def deleteTag(request, name):
     print(request)
     print(name)
     tag = Tag.objects.get(name=name)
     print(tag)
-    return allTags(request)
+    if request.method == "POST":
+        print(f"deleting {tag}")
+        tag.delete()
+        return HttpResponseRedirect('/')
+    return render(request, template_name='tag/deleteTag.html', context={'tag': tag})

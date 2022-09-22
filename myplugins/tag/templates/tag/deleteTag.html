@@ -1,0 +1,13 @@
+{% extends "tag/base.html" %}
+
+{% block title %}WARNING{% endblock %}
+
+{% block content %}
+<h1>WARNING</h1>
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure that you want to delete {{tag.name}}?</p>
+    <input type="submit" value="Yes"/>
+    <a href="/one_tag/{{tag.name}}">Cancel</a>
+</form>
+{% endblock %}
