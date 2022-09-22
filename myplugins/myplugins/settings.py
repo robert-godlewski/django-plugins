@@ -57,7 +57,8 @@ ROOT_URLCONF = 'myplugins.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Added in BASE_DIR / 'templates' to the DIRS list to have the base themplate there
+        'DIRS': [BASE_DIR/ 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

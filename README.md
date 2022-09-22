@@ -10,6 +10,8 @@ Plugins to create later:
 * store
 * user - I think that this one exists but might need to add in some features
 
+templates/admin directory in the myplugins directory now has the html for the admin and base html look.
+
 # tag
 The tag app is really useful for SEO purposes and grouping content together.  It can be used for blogs, stores, crm, cms, etc.
 
