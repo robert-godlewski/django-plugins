@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
-#from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from .models import Tag
 from .forms import TagForm
 
@@ -22,13 +22,17 @@ def oneTag(request, name):
 
 def createTag(request):
     # This is a post request here
-    print(request)
-    form = TagForm(request.POST or None)
-    print(request.method)
+    #print(request)
     if request.method == "POST":
+        form = TagForm(request.POST)
+        #print(form)
+        # The form will be checked by the model if the name is unique or not
         if form.is_valid():
-            Tag.objects.create(name=form.name)
-            return redirect(oneTag(request, form.name))
+            # This will automatically save it to the db
+            form.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = TagForm()
     return render(request, template_name='tag/createTag.html', context={'form': form})
 
 def updateTag(request, name):

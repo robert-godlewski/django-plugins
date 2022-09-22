@@ -3,9 +3,9 @@
 {% block title %}All Tags{% endblock %}
 
 {% block content %}
-<div><a href="/tag/create_tag/">New Tag</a></div>
 <h1>List of all tags:</h1>
 {% for tag in tags %}
 <a href="{{tag.name}}">#{{tag}}</a>
 {% endfor %}
+<a href="/create_tag/">New Tag</a>
 {% endblock %}

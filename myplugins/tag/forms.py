@@ -4,10 +4,7 @@ from .models import Tag
 
 
 class TagForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={
-        "class": "form-control",
-        "placeholder": "name"
-    }))
+    name = forms.CharField(label="tag name", min_length=1, max_length=50)
 
     class Meta:
         model = Tag
