@@ -30,7 +30,7 @@ def createTag(request):
         if form.is_valid():
             # This will automatically save it to the db
             form.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/tag')
     else:
         form = TagForm()
     return render(request, template_name='tag/createTag.html', context={'form': form})
@@ -43,5 +43,5 @@ def deleteTag(request, name):
     if request.method == "POST":
         print(f"deleting {tag}")
         tag.delete()
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/tag')
     return render(request, template_name='tag/deleteTag.html', context={'tag': tag})

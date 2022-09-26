@@ -8,6 +8,6 @@
     {% csrf_token %}
     <p>Are you sure that you want to delete {{tag.name}}?</p>
     <input type="submit" value="Yes"/>
-    <a href="/one_tag/{{tag.name}}">Cancel</a>
+    <a href="/tag/one_tag/{{tag.name}}">Cancel</a>
 </form>
 {% endblock %}
