@@ -4,7 +4,7 @@ This is a list of custom made plugins that Robert Godlewski created to make deve
 Packages are not directly included here on the repository.
 
 Plugins in current development:
-* tag - version 0.1
+* tag - version 0.1 - Need to package
 * crm
 
 Plugins to create later:

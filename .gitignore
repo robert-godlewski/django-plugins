@@ -1,11 +1,11 @@
-# The app packages are ignored for now
-django-tags/
+# For now ignore the pipfile.lock file
+Pipfile.lock
 
 # Other ignores added in, we don't need to track the migrations for this project
 myplugins/tag/migrations/0*.py
 myplugins/crm/migrations/0*.py
 
-# Ignore all ds)store files
+# Ignore all ds.store files
 .DS_Store
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,python
