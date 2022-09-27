@@ -1,19 +1,68 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Task, Client, ClientTask
+from django.shortcuts import render, get_list_or_404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from .models import Task
+from .forms import TaskForm
 
 
 # Create your views here.
+# crm dashboard
+def crmdash(request):
+    print(request)
+    # Change tasks to only get the current/ future ones not pending and unfinished
+    tasks = Task.objects.all()
+    print(tasks)
+    context = {
+        'tasks': tasks
+    }
+    #return HttpResponse("CRM Dashboard")
+    return render(request, template_name='crm/crmdash.html', context=context)
+
 # For Tasks
 def allTasks(request):
-    # returns all of the tasks for the user
-    # need to add in a user_id to only get those relative to the user
-    print(request)
-    #print(user_id)
-    tasks = Task.objects.get()
-    print(tasks)
-    return HttpResponse(tasks)
+    #print(request)
+    tasks = Task.objects.all()
+    #print(tasks)
+    context = {
+        # Split up the tasks later
+        'tasks': tasks
+    }
+    #return HttpResponse("CRM Dashboard")
+    return render(request, template_name='crm/allTasks.html', context=context)
 
+def createTask(request):
+    print(request)
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/crm/task/all')
+    else:
+        form = TaskForm()
+    return render(request, template_name='crm/createTask.html', context={'form': form})
+
+def oneTask(request, id):
+    # get the details for one task
+    print(request)
+    print(id)
+    task = Task.objects.get(id=id)
+    print(task)
+    return render(request, template_name='crm/oneTask.html', context={'task': task})
+
+# For deleting
+'''
+def deleteTag(request, name):
+    print(request)
+    print(name)
+    tag = Tag.objects.get(name=name)
+    print(tag)
+    if request.method == "POST":
+        print(f"deleting {tag}")
+        tag.delete()
+        return HttpResponseRedirect('/tag')
+    return render(request, template_name='tag/deleteTag.html', context={'tag': tag})
+'''
+
+'''
 def moveToPending(request):
     # moves the expired unfinished tasks to the pending list
     # will automatically set expired tasks is_pending = True
@@ -49,18 +98,6 @@ def allDoneTasks(request):
     finished = Task.objects.get(is_done=True)
     print(finished)
     return HttpResponse(finished)
-
-def oneTask(request, id):
-    # get the details for one task
-    print(request)
-    print(id)
-    task = Task.objects.get(id=id)
-    print(task)
-    return HttpResponse(task)
-
-def createTask(request):
-    print(request)
-    return allTasks(request)
 
 def updateTask(request, id):
     print(request)
@@ -103,3 +140,4 @@ def createClientTaskRelation(request, client, task):
     print(client)
     print(task)
     return allTasks(request)
+'''

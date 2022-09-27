@@ -31,9 +31,12 @@ Other packages might be needed:
 * tag
 
 ## Todos:
-1. Add in full CRUD functionality
-2. Create tests
-3. Create templates to see the data in views
+1. Add in Update functionality for Tasks
+2. Add in Delete functionality for Tasks
+3. Add in everything else for Task variables to be edited
+4. Create tests for Task variables to see if they work
+5. Fix bugs for Tasks
+6. Add in full CRUD for the other Models
 
 ## Tables
 Model Design for client:
