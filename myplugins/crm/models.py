@@ -6,17 +6,23 @@ from django.conf import settings
 class Task(models.Model):
     title = models.CharField(max_length=50)
     body = models.TextField(blank=True)
+    # change HIGH_P to TOP_P = 'TOP'
     HIGH_P = 'H'
+    # change to 'MID'
     MID_P = 'M'
+    # change to 'LOW'
     LOW_P = 'L'
+    # Change the choices to match above
     PRIORITY_CHOICES = [
         (HIGH_P, 'high'),
         (MID_P, 'mid'),
         (LOW_P, 'low')
     ]
     priority = models.CharField(
+        # max_length=3
         max_length=1,
         choices=PRIORITY_CHOICES,
+        # default=TOP_P
         default=HIGH_P
     )
     is_recurring = models.BooleanField(default=False)

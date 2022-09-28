@@ -7,9 +7,9 @@ urlpatterns =[
     # Task views
     path('task/all/', views.allTasks),
     path('task/create/', views.createTask),
-    path('task/one_task/<int:id>/', views.oneTask)
-    # Need to create a special view for just tasks of current, pending, past, etc.
-    #path('task/<int:id>/', views.oneTask),
-    #path('client/', views.allClients),
-    #path('client/<email:email>', views.oneClient)
+    path('task/one_task/<int:id>/', views.oneTask),
+    path('task/update/<int:id>', views.updateTask),
+    path('task/delete/<int:id>', views.deleteTask),
+    # Need to create a special view for just tasks of current, pending, past, etc for tasks.
+    # Also need to add in the other views.
 ]

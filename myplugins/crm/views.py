@@ -30,7 +30,7 @@ def allTasks(request):
     return render(request, template_name='crm/allTasks.html', context=context)
 
 def createTask(request):
-    print(request)
+    #print(request)
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -42,11 +42,40 @@ def createTask(request):
 
 def oneTask(request, id):
     # get the details for one task
+    #print(request)
+    #print(id)
+    task = Task.objects.get(id=id)
+    #print(task)
+    return render(request, template_name='crm/oneTask.html', context={'task': task})
+
+def updateTask(request, id):
+    #print(request)
+    #print(id)
+    task = Task.objects.get(id=id)
+    #print(task)
+    if request.method == "POST":
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(f'/crm/task/one_task/{id}')
+    else:
+        form = TaskForm(instance=task)
+    context = {
+        "task": task,
+        "form": form
+    }
+    return render(request, template_name='crm/updateTask.html', context=context)
+
+def deleteTask(request, id):
     print(request)
     print(id)
     task = Task.objects.get(id=id)
     print(task)
-    return render(request, template_name='crm/oneTask.html', context={'task': task})
+    if request.method == "POST":
+        print(f"deleting {task}")
+        task.delete()
+        return HttpResponseRedirect('/crm/task/all')
+    return render(request, template_name='crm/deleteTask.html', context={'task': task})
 
 # For deleting
 '''
