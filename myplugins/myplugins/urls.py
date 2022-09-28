@@ -18,6 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # change based off of the plugin currently working on
-    path('', include('tag.urls')),
+    path('tag/', include('tag.urls')),
+    path('crm/', include('crm.urls')),
 ]

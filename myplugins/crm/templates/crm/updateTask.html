@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Update Task{% endblock %}
+
+{% block content %}
+<h1>Update Task</h1>
+<form action="/crm/task/update/{{task.id}}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    <button>Submit</button>
+</form>
+<a href="/crm/task/one_task/{{task.id}}">Cancel</a>
+{% endblock %}
+

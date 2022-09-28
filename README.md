@@ -14,6 +14,11 @@ Plugins to create later:
 
 templates/admin directory in the myplugins directory now has the html for the admin and base html look.
 
+## Overall todos:
+* work on crm app
+* learn docker to package tag app
+* work on the other apps
+
 # tag
 The package is called django-tags.
 
@@ -31,9 +36,11 @@ Other packages might be needed:
 * tag
 
 ## Todos:
-1. Add in full CRUD functionality
-2. Create tests
-3. Create templates to see the data in views
+1. Add in everything else for Task variables to be edited
+2. Edit the form to edit some of the other variables
+3. Create tests for Task variables to see if they work
+4. Fix bugs for Tasks
+5. Add in full CRUD for the other Models
 
 ## Tables
 Model Design for client:

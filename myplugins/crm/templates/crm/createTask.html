@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+
+{% block title %}New Task{% endblock %}
+
+{% block content %}
+<h1>New Task</h1>
+<form action="/crm/task/create/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    <button>Submit</button>
+</form>
+<a href="/crm/task/all">All Tags</a>
+{% endblock %}
+

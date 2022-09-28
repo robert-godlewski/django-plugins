@@ -6,8 +6,8 @@
 <h1>WARNING</h1>
 <form method="POST">
     {% csrf_token %}
-    <p>Are you sure that you want to delete {{tag.name}}?</p>
+    <p>Are you sure that you want to delete {{task.title}}?</p>
     <input type="submit" value="Yes"/>
-    <a href="/tag/one_tag/{{tag.name}}">Cancel</a>
+    <a href="/crm/task/one_task/{{task.id}}">Cancel</a>
 </form>
 {% endblock %}

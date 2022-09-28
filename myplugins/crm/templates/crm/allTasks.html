@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}
+
+{% block title %}All Tasks{% endblock %}
+
+{% block content %}
+<div>
+    <h1>All Tasks</h1>
+    <a href="/crm/task/create/">New Task</a>
+    <a href="/crm">Dashboard</a>
+</div>
+<div>
+    <h3>Current Tasks</h3>
+    {% for task in tasks %}
+    <a href="/crm/task/one_task/{{task.id}}">{{task}}</a>
+    {% endfor %}
+</div>
+{% endblock %}
