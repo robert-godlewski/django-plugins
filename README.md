@@ -36,11 +36,12 @@ Other packages might be needed:
 * tag
 
 ## Todos:
-1. Add in everything else for Task variables to be edited
-2. Edit the form to edit some of the other variables
-3. Create tests for Task variables to see if they work
-4. Fix bugs for Tasks
-5. Add in full CRUD for the other Models
+1. Fix the checkbox data for is_recurring that returns true/false instead of stick with just false
+2. Add in everything else for Task variables to be edited
+3. Edit the form to edit some of the other variables
+4. Create tests for Task variables to see if they work
+5. Fix bugs for Tasks
+6. Add in full CRUD for the other Models
 
 ## Tables
 Model Design for client:
