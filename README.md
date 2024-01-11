@@ -4,6 +4,7 @@ This is the direct repository Robert Godlewski uses to develop Django plugins to
 Packages are not directly included here on the repository.
 
 Plugins in current development:
+* registration
 * tag - version 0.1 - Need to package
 * crm
 

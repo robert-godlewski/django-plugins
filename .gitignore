@@ -2,6 +2,7 @@
 Pipfile.lock
 
 # Other ignores added in, we don't need to track the migrations for this project
+myplugins/registration/migrations/0*.py
 myplugins/tag/migrations/0*.py
 myplugins/crm/migrations/0*.py
 
