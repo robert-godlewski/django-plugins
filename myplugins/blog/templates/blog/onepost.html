@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load markdown_extras %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+{# <p>Slug = {{post.slug}}</p> #}
+<div>
+    <h1>{{post.title}}</h1>
+    <h3>{{post.subtitle}}</h3>
+    <h6>
+        {% if post.published and post.publish_date and post.updated_at != post.publish_date and not post.hide_details%}
+        <span>Updated: {{post.updated_at}}</span>
+        {% elif post.published and post.publish_date and not post.hide_details%}
+        <span>Published on: {{post.publish_date}}</span>
+        {# Only temporary #}
+        {% elif not post.hide_details %}
+        <span>Created: {{post.created_at}}</span>
+        {% endif %}
+        <span> by {{post.author.user}}</span>
+        {% if post.featured and not post.hide_details %}
+        <span> - FEATURED</span>
+        {% endif %}
+    </h6>
+    <p>{{post.content | markdown | safe}}</p>
+</div>
+<div>
+    {% if not post.hide_details %}
+    <h5>
+        {# Fix this so that it will link to a user page with details #}
+        {% if post.author.website %}
+            <a href="{{post.author.website}}" alt="{{post.author.user}} website url">About the Author</a>
+        {% elif post.author.bio %}
+            <span>About the Author</span>
+        {% endif %}
+    </h5>
+    {% endif %}
+    <p>{{post.author.bio}}</p>
+    {% if post.author == author %}
+    <div>
+        <a href="{% url 'editpost' post.slug %}">edit post</a>
+        <span> | </span>
+        <a href="{% url 'deletepost' post.slug %}">delete post</a>
+    </div>
+    {% endif %}
+</div>
+<div>
+    {% if not post.comments_disabled %}
+    <h5>Comments</h5>
+    {% endif %}
+    {% if comments and not post.comments_disabled %}
+        {% for comment in comments %}
+        <div style="border: 1px black solid;">
+            <div>
+                <p>{{comment.author.user}}</p>
+                <p>
+                    {# There's some wierd backwards logic here #}
+                    {% if comment.created_at == comment.updated_at %}
+                    <span>{{comment.updated_at}} (Updated)</span>
+                    {% else %}
+                    <span>{{comment.created_at}}</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div><p>{{comment.content}}</p></div>
+            {% if author == comment.author %}
+            <div>
+                <a href="{% url 'editcomment' post.slug comment.id %}">Edit</a>
+                <span> | </span>
+                <a href="{% url 'deletecomment' post.slug comment.id %}">Delete</a>
+            </div>
+            {% endif %}
+            {# Need to add in a button to reply to this thread #}
+        </div>
+        {% endfor %}
+    {% elif not post.comments_disabled %}
+    <p>There are no comments right now</p>
+    {% endif %}
+    {% if not post.comments_disabled %}
+    <a href="{% url 'createcomment' post.slug %}" class="px-5 py-2 mx-4 btn btn-primary">Add comment</a>
+    {% endif %}
+</div>
+{% endblock %}

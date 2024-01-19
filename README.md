@@ -116,5 +116,5 @@ This site is developed using pipenv as it's virtual environment so best to use t
 1. Create virtual environment: % pip3 install pipenv
 2. Activate the virtual environment: % pipenv shell
 3. Using pipenv to install the packages locally: % pipenv install
-4. When you want to test the live site do: % python3 cod_site/manage.py runserver
+4. When you want to test the live site do: % python3 myplugins/manage.py runserver
 5. When you are done using with the updates of the program deactivate your pipenv session by doing: % exit
