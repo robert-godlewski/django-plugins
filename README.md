@@ -108,6 +108,7 @@ Model Design for client_task: Many To Many
 * https://pypi.org/project/pytz/
 * https://learndjango.com/tutorials/django-markdown-tutorial
 * https://www.youtube.com/watch?v=W5PyXUTjwS4
+* https://www.youtube.com/watch?v=I8TRkEcw9Mg
 
 # For developing the site locally
 ## Django

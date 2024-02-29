@@ -4,99 +4,63 @@
 
 {% block content %}
 <div class="container row">
-    <section class="container row m-2">
-        <h3>Intro</h3>
-        <p>Comet of Dreams is a freelance audio production service and an Instrumental Rock group from the Pacific Northwest.</p>
-    </section>
-    <section class="container row m-2">
-        <h3 class="col-12">Music</h3>
-        {# Maybe automate this by adding in files and links from csm app side #}
-        <div class="col-6">
-            <h4>Spotify</h4>
-            <iframe src="https://open.spotify.com/embed/artist/7gzLG44im4qLiULTjWvuPr" alt="Comet of Dreams on Spotify" height="100%" width="90%"></iframe>
-        </div>
-        <div class="col-6">
-            <h4>Other Streaming Sites</h4>
-            <a href="https://music.apple.com/us/artist/comet-of-dreams/1491678196" class="col-12 my-2 btn btn-secondary">Apple Music</a>
-            <a href="https://music.youtube.com/channel/UC-8k49b7m9pGKjT3jigtBrg" class="col-12 my-2 btn btn-secondary">YouTube Music</a>
-            <a href="https://music.amazon.com/artists/B082S5V633/comet-of-dreams" class="col-12 my-2 btn btn-secondary">Amazon Music</a>
-            <h4>Social Media Platform</h4>
-            {# Need to add in FaceBook and Reddit #}
-            {# <a href="#" class="col-12 my-2 btn btn-secondary">Social Media App Here</a> #}
-            <a href="https://www.instagram.com/cometofdreamsband" class="col-12 btn btn-secondary">Instagram</a>
-        </div>
-    </section>
-</div>
-<div class="container row">
-    {% if user and user.is_staff %}
-    <h1>Posts working on</h1>
-    {% endif %}
+    <h1>Blogs</h1>
     {% if user and drafts and user.is_staff %}
+        <h3>Posts working on</h3>
         <p>
             If there is no date and time shown it means you need to set a published date for these.
         </p>
         {% for draft in drafts %}
-        <div class="border col-5 m-4 p-2">
-            <a href="{% url 'onepost' draft.slug %}"><h5>{{draft.title}}</h5></a>
-            <p>{{draft.updated_at}} by {{draft.author.user}}</p>
-            <a href="{% url 'editpost' draft.slug %}">edit post</a>
-        </div>
+            <div class="border col-5 m-4 p-2">
+                <a href="{% url 'onepost' draft.slug %}"><h5>{{draft.title}}</h5></a>
+                <p>{{draft.updated_at|timesince}} ago by {{draft.author.username}}</p>
+                <p><strong>{{draft.subtitle}}</strong></p>
+                <a href="{% url 'editpost' draft.slug %}">edit post</a>
+            </div>
         {% endfor %}
-    {% elif user and user.is_staff %}
-    <div class="col-12">
-        {# Have a link to create a blog if super_user status is true #}
-        <p>There are no posts you have.</p>
-    </div>
-    {% endif %}
-    {% if user and user.is_staff %}
-    <h1>Posts you have published</h1>
     {% endif %}
     {% if user and pub_posts and user.is_staff %}
+        <h3>Posts you have published</h3>
         <p>Posts that you have published</p>
         {% for post in pub_posts %}
-        <div class="border col-5 m-4 p-2">
-            <a href="{% url 'onepost' post.slug %}"><h5>{{post.title}}</h5></a>
-            <p>{{post.updated_at}} by {{post.author.user}}</p>
-            <a href="{% url 'editpost' post.slug %}">edit post</a>
-        </div>
+            <div class="border col-5 m-4 p-2">
+                <a href="{% url 'onepost' post.slug %}"><h5>{{post.title}}</h5></a>
+                <p>{{post.updated_at|timesince}} ago by {{post.author.username}}</p>
+                <p><strong>{{post.subtitle}}</strong></p>
+                <a href="{% url 'editpost' post.slug %}">edit post</a>
+            </div>
         {% endfor %}
     {% elif user and user.is_staff %}
         <p>You currently have no published posts</p>
     {% endif %}
     {% if user.is_authenticated and user.is_staff %}
-    <p><a href="{% url 'newpost' %}" class="col-4 btn btn-secondary">Create a New Post</a></p>
-    {% endif %}
-    <h1>Comet of Dreams Blogs</h1>
-    {% if tags.length > 0 %}
-    <div class="col-12">
-        {% for tag in tags %}
-        <a href="#" class="col-3 m-3 p-2"><p>{{tag.name}}</p></a>
-        {% endfor %}
-    </div>
+        <p><a href="{% url 'newpost' %}" class="col-4 btn btn-secondary">Create a New Post</a></p>
     {% endif %}
     {% if featured %}
-    <h3>Featured Posts</h3>
+        <h3>Featured Posts</h3>
+        {% for feat in featured %}
+            <div class="border col-5 m-4 p-2">
+                <a href="{% url 'onepost' feat.slug %}"><h5>{{feat.title}}</h5></a>
+                <p>{{feat.updated_at|timesince}} ago by {{feat.author.username}}</p>
+                <p><strong>{{feat.subtitle}}</strong></p>
+                {% if user.is_authenticated and feat.author == user %}
+                    <a href="{% url 'editpost' feat.slug %}">edit post</a>
+                {% endif %}
+            </div>
+        {% endfor %}
     {% endif %}
-    {% for feat in featured %}
-    <div class="border col-5 m-4 p-2">
-        <a href="{% url 'onepost' feat.slug %}"><h5>{{feat.title}}</h5></a>
-        <p>{{feat.updated_at}} by {{feat.author.user}}</p>
-        {% if user.is_authenticated and feat.user == user %}
-        <a href="{% url 'editpost' feat.slug %}">edit post</a>
-        {% endif %}
-    </div>
-    {% endfor %}
     {% if posts %}
-    <h3>All Posts</h3>
+        <h3>All Posts</h3>
+        {% for post in posts %}
+        <div class="border col-5 m-4 p-2">
+            <a href="{% url 'onepost' post.slug %}"><h5>{{post.title}}</h5></a>
+            <p>{{post.updated_at|timesince}} ago by {{post.author.username}}</p>
+            <p><strong>{{post.subtitle}}</strong></p>
+            {% if user.is_authenticated and post.author == user %}
+                <a href="{% url 'editpost' post.slug %}">edit post</a>
+            {% endif %}
+        </div>
+        {% endfor %}
     {% endif %}
-    {% for post in posts %}
-    <div class="border col-5 m-4 p-2">
-        <a href="{% url 'onepost' post.slug %}"><h5>{{post.title}}</h5></a>
-        <p>{{post.updated_at}} by {{post.author.user}}</p>
-        {% if user.is_authenticated and post.user == user %}
-        <a href="{% url 'editpost' post.slug %}">edit post</a>
-        {% endif %}
-    </div>
-    {% endfor %}
 </div>
 {% endblock %}

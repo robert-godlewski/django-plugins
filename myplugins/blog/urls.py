@@ -8,7 +8,6 @@ urlpatterns = [
     # For Posts
     path('post/all/', views.allblogs, name='blogs'),
     path('post/new/', views.create_post, name='newpost'),
-    path('post/read/about/', views.about_post, name='aboutpost'),
     path('post/read/<str:slug>/', views.one_post, name='onepost'),
     path('post/edit/<str:slug>/', views.edit_post, name='editpost'),
     path('post/update/<str:slug>/', views.update_post, name='updatepost'),

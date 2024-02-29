@@ -8,12 +8,11 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 from .forms import PostForm, CommentForm
-from .models import Post, Comment, Profile, Tag
+from .models import Category, Post, Comment
 
 
 # All published posts and draft posts for the logged in user
 def allblogs(request):
-    tags = Tag.objects.all()
     # Need to update all of the posts here for publishing
     end = timezone.datetime.now()
     start = end - timedelta(days=2)
@@ -29,20 +28,18 @@ def allblogs(request):
     #print(request.user)
     if request.user.is_authenticated:
         user = request.user
-        profile = Profile.objects.get(user=user)
-        draft_posts = Post.objects.filter(author=profile, published=False)
+        draft_posts = Post.objects.filter(author=user, published=False)
         # Posts where the author = current user
-        pub_posts = Post.objects.filter(author=profile, published=True)
+        pub_posts = Post.objects.filter(author=user, published=True)
         pub_posts.order_by('-publish_date')
     else:
         user = None
-        draft_posts = None
-        pub_posts = None
+        draft_posts = []
+        pub_posts = []
     context = {
         'user': user,
         'featured': featured,
         'posts': posts,
-        'tags': tags,
         'drafts': draft_posts,
         'pub_posts': pub_posts
     }
@@ -52,7 +49,7 @@ def allblogs(request):
 def one_post(request, slug):
     post = Post.objects.get(slug=slug)
     if request.user.is_authenticated:
-        author = Profile.objects.get(user=request.user)
+        author = User.objects.get(username=request.user.username)
     else:
         author = None
     comments = Comment.objects.filter(post=post)
@@ -75,9 +72,7 @@ def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            # Need to grab the user for the author
-            user = User.objects.get(username=request.user)
-            author = Profile.objects.get(user=user)
+            author = User.objects.get(username=request.user)
             # Need to create the slug from the title and subtitle
             title = form.cleaned_data['title']
             subtitle = form.cleaned_data['subtitle']
@@ -87,6 +82,7 @@ def create_post(request):
             content = form.cleaned_data['content']
             featured = form.cleaned_data['featured']
             publish_date = form.cleaned_data['publish_date']
+            category = form.cleaned_data['category']
             post = Post(
                 title=title,
                 subtitle=subtitle,
@@ -94,6 +90,7 @@ def create_post(request):
                 content=content,
                 featured=featured,
                 publish_date=publish_date,
+                category=category,
                 author=author
             )
             try:
@@ -153,20 +150,19 @@ def destroy_post(request, slug):
     return redirect('/')
 
 def create_comment(request, post_slug):
-    if not request.user.is_authenticated:
-        return redirect('/logout')
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            user = User.objects.get(username=request.user)
-            author = Profile.objects.get(user=user)
+            if request.user.is_authenticated:
+                user = User.objects.get(username=request.user)
+                name = user.get_full_name()
+                email = user.email
+            else:
+                name = form.cleaned_data['name']
+                email = form.cleaned_data['email']
             post = Post.objects.get(slug=post_slug)
             content = form.cleaned_data['content']
-            comment = Comment(
-                author=author,
-                post=post,
-                content=content
-            )
+            comment = Comment(name=name,email=email,content=content,post=post)
             try:
                 comment.save()
                 messages.success(request, 'Created new comment.')
