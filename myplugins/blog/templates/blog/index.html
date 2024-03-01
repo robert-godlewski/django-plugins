@@ -13,7 +13,7 @@
         {% for draft in drafts %}
             <div class="border col-5 m-4 p-2">
                 <a href="{% url 'onepost' draft.slug %}"><h5>{{draft.title}}</h5></a>
-                <p>{{draft.updated_at|timesince}} ago by {{draft.author.username}}</p>
+                <p>{{draft.updated_at|date:"M d, Y"}} ({{draft.updated_at|timesince}} ago) by {{draft.author.username}}</p>
                 <p><strong>{{draft.subtitle}}</strong></p>
                 <a href="{% url 'editpost' draft.slug %}">edit post</a>
             </div>
@@ -25,7 +25,7 @@
         {% for post in pub_posts %}
             <div class="border col-5 m-4 p-2">
                 <a href="{% url 'onepost' post.slug %}"><h5>{{post.title}}</h5></a>
-                <p>{{post.updated_at|timesince}} ago by {{post.author.username}}</p>
+                <p>{{post.updated_at|date:"M d, Y"}} ({{post.updated_at|timesince}} ago) by {{post.author.username}}</p>
                 <p><strong>{{post.subtitle}}</strong></p>
                 <a href="{% url 'editpost' post.slug %}">edit post</a>
             </div>
@@ -41,7 +41,7 @@
         {% for feat in featured %}
             <div class="border col-5 m-4 p-2">
                 <a href="{% url 'onepost' feat.slug %}"><h5>{{feat.title}}</h5></a>
-                <p>{{feat.updated_at|timesince}} ago by {{feat.author.username}}</p>
+                <p>{{feat.updated_at|date:"M d, Y"}} ({{feat.updated_at|timesince}} ago) by {{feat.author.username}}</p>
                 <p><strong>{{feat.subtitle}}</strong></p>
                 {% if user.is_authenticated and feat.author == user %}
                     <a href="{% url 'editpost' feat.slug %}">edit post</a>
@@ -54,7 +54,7 @@
         {% for post in posts %}
         <div class="border col-5 m-4 p-2">
             <a href="{% url 'onepost' post.slug %}"><h5>{{post.title}}</h5></a>
-            <p>{{post.updated_at|timesince}} ago by {{post.author.username}}</p>
+            <p>On {{post.updated_at|date:"M d, Y"}} ({{post.updated_at|timesince}} ago) by {{post.author.username}}</p>
             <p><strong>{{post.subtitle}}</strong></p>
             {% if user.is_authenticated and post.author == user %}
                 <a href="{% url 'editpost' post.slug %}">edit post</a>

@@ -3,11 +3,11 @@
     <nav class="col-12 m-3">
         <a href="/" class="px-5 py-2 mx-4 btn btn-primary">Blogs</a>
         {% if user.is_authenticated %}
-        <a href="{% url 'userinfo' user.username %}" class="px-5 py-2 mx-4 btn btn-primary">{{user.username}} info</a>
+        <!-- <a href="{% url 'userinfo' user.username %}" class="px-5 py-2 mx-4 btn btn-primary">{{user.username}} info</a> -->
         <a href="{% url 'logout' %}" class="px-5 py-2 mx-4 btn btn-primary">Logout</a>
-        {% else %}
-        <a href="{% url 'login' %}" class="px-5 py-2 mx-4 btn btn-primary">Login</a>
-        <a href="{% url 'register' %}" class="px-5 py-2 mx-4 btn btn-primary">Register</a>
+        {# {% else %} #}
+        <!-- <a href="{% url 'login' %}" class="px-5 py-2 mx-4 btn btn-primary">Login</a>
+        <a href="{% url 'register' %}" class="px-5 py-2 mx-4 btn btn-primary">Register</a> -->
         {% endif %}
     </nav>
 </header>

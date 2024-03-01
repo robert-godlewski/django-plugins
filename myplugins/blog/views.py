@@ -48,6 +48,27 @@ def allblogs(request):
 # Single post routes
 def one_post(request, slug):
     post = Post.objects.get(slug=slug)
+    # This is for creating a comment
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                user = User.objects.get(username=request.user.username)
+                name = user.get_full_name()
+                email = user.email
+            else:
+                name = form.cleaned_data['name']
+                email = form.cleaned_data['email']
+            content = form.cleaned_data['content']
+            comment = Comment(name=name,email=email,content=content,post=post)
+            try:
+                comment.save()
+                messages.success(request,'Created new comment.')
+            except:
+                messages.error(request, 'Did not save the new comment.')
+    else:
+        form = CommentForm()
+    # Getting the other data
     if request.user.is_authenticated:
         author = User.objects.get(username=request.user.username)
     else:
@@ -56,7 +77,8 @@ def one_post(request, slug):
     context = {
         'post': post,
         'author': author,
-        'comments': comments
+        'comments': comments,
+        'form': form
     }
     return render(request, template_name='blog/onepost.html', context=context)
 
