@@ -9,13 +9,13 @@
     <p>Are you sure you want to delete this post?</p>
     <div>
         <h4>{{post.subtitle}}</h4>
-        <p>Created At: {{post.created_at}}</p>
-        <p>Updated At: {{post.updated_at}}</p>
+        <p>Created At: {{post.created_at|date:"M d, Y H:i"}}</p>
+        <p>Updated At: {{post.updated_at|date:"M d, Y H:i"}}</p>
         {% if post.published %}
-        <p>Published Date: {{post.publish_date}}</p>
+            <p>Published Date: {{post.publish_date|date:"M d, Y H:i"}}</p>
         {% endif %}
         {% if post.featured %}
-        <p>FEATURED</p>
+            <p>FEATURED</p>
         {% endif %}
         <p>{{post.content | markdown | safe}}</p>
     </div>

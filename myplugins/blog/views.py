@@ -24,6 +24,7 @@ def allblogs(request):
     featured = Post.objects.filter(featured=True, published=True)
     posts = Post.objects.filter(published=True)
     posts.order_by('-publish_date')#[0:3]
+    categories = Category.objects.all()
     # Take out all of the draft_posts and pub_posts from here to the user's detail page instead
     #print(request.user)
     if request.user.is_authenticated:
@@ -41,7 +42,46 @@ def allblogs(request):
         'featured': featured,
         'posts': posts,
         'drafts': draft_posts,
-        'pub_posts': pub_posts
+        'pub_posts': pub_posts,
+        'categories': categories,
+        'category_id': None
+    }
+    return render(request, 'blog/index.html', context)
+
+# Grabs all posts from the given id of a category
+def posts_by_category(request, id):
+    # Need to update all of the posts here for publishing
+    end = timezone.datetime.now()
+    start = end - timedelta(days=2)
+    unpub_posts = Post.objects.filter(published=False, publish_date__range=(start, end))
+    for dp in unpub_posts:
+        dp.published = True
+        dp.save()
+    category = Category.objects.filter(id=id)
+    featured = Post.objects.filter(featured=True, published=True, category=id)
+    posts = Post.objects.filter(published=True, category=id)
+    posts.order_by('-publish_date')#[0:3]
+    categories = Category.objects.all()
+    # Take out all of the draft_posts and pub_posts from here to the user's detail page instead
+    #print(request.user)
+    if request.user.is_authenticated:
+        user = request.user
+        draft_posts = Post.objects.filter(author=user, published=False)
+        # Posts where the author = current user
+        pub_posts = Post.objects.filter(author=user, published=True)
+        pub_posts.order_by('-publish_date')
+    else:
+        user = None
+        draft_posts = []
+        pub_posts = []
+    context = {
+        'user': user,
+        'featured': featured,
+        'posts': posts,
+        'drafts': draft_posts,
+        'pub_posts': pub_posts,
+        'categories': categories,
+        'category_id': id
     }
     return render(request, 'blog/index.html', context)
 
@@ -63,6 +103,7 @@ def one_post(request, slug):
             comment = Comment(name=name,email=email,content=content,post=post)
             try:
                 comment.save()
+                form = CommentForm()
                 messages.success(request,'Created new comment.')
             except:
                 messages.error(request, 'Did not save the new comment.')
@@ -144,9 +185,14 @@ def update_post(request, slug):
         return redirect('/logout')
     post = Post.objects.get(slug=slug)
     form = PostForm(data=request.POST, instance=post)
-    if form.is_valid():
-        form.save()
+    try:
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Updated post.')
         return redirect(f'/blog/post/read/{post.slug}')
+    except:
+        messages.error(request, 'Not able to update the post')
+        print(form)
     context = {
         'post': post,
         'form': PostForm(instance=post)
@@ -170,36 +216,6 @@ def destroy_post(request, slug):
     post = Post.objects.get(slug=slug)
     post.delete()
     return redirect('/')
-
-def create_comment(request, post_slug):
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            if request.user.is_authenticated:
-                user = User.objects.get(username=request.user)
-                name = user.get_full_name()
-                email = user.email
-            else:
-                name = form.cleaned_data['name']
-                email = form.cleaned_data['email']
-            post = Post.objects.get(slug=post_slug)
-            content = form.cleaned_data['content']
-            comment = Comment(name=name,email=email,content=content,post=post)
-            try:
-                comment.save()
-                messages.success(request, 'Created new comment.')
-            except:
-                messages.error(request, 'Did not save the new comment.')
-            print(f'comment = {comment}')
-            return redirect(f'/blog/post/read/{post_slug}')
-        messages.error('Invalid information to make a comment.')
-    else:
-        form = CommentForm()
-    context = {
-        'form': form,
-        'post_slug': post_slug
-    }
-    return render(request, template_name='blog/createcomment.html', context=context)
 
 def edit_comment(request, post_slug, comment_id):
     if not request.user.is_authenticated:

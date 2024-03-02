@@ -91,6 +91,7 @@ Model Design for client_task: Many To Many
 * https://stackoverflow.com/questions/10048216/compare-date-and-datetime-in-django
 * https://stackoverflow.com/questions/4668619/how-do-i-filter-query-objects-by-date-range-in-django
 * https://stackoverflow.com/questions/60518086/django-external-url-link
+* https://stackoverflow.com/questions/5773408/how-to-clear-form-fields-after-a-submit-in-django
 
 ## Other References
 * https://medium.com/@zackliutju/building-react-and-django-web-application-and-deploy-it-on-google-cloud-545f06eb5521

@@ -19,7 +19,7 @@
         <div class="col">
             <div>
                 <label>{{form.publish_date.label}}:</label>
-                <input type="datetime-local" name="publish_date" value="{{post.publish_date}}">
+                {{form.publish_date}}
             </div>
             <div>
                 <label>{{form.featured.label}}:</label>
@@ -39,8 +39,8 @@
             {{form.content}}
         </div>
         <div class="col">
-            <label>Tags:</label>
-            {{form.tags}}
+            <label>Categories: </label>
+            {{form.category}}
         </div>
         <button class="btn btn-primary" type="submit">Update Post</button>
         <a href="{% url 'onepost' post.slug %}" class="btn btn-warning">Cancel</a>
