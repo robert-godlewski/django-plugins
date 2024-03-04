@@ -4,8 +4,11 @@ This is the direct repository Robert Godlewski uses to develop Django plugins to
 Packages are not directly included here on the repository.
 
 Plugins in current development:
+* blog - version 0.1
+
+Backlog development plugins:
 * tag - version 0.1 - Need to package
-* crm
+* crm - version 0.1
 
 Plugins to create later:
 * blog
@@ -15,12 +18,21 @@ Plugins to create later:
 templates/admin directory in the myplugins directory now has the html for the admin and base html look.
 
 # Plugin Descriptions
+## blog plugin
+With the blog plugin bloggers (admin staff) can utilize markdown files for their blog posts which can link up to external podcast audio files and YouTube videos along with their written down content.  There are also categories to organize the posts for quicker search results for readers who visit the direct start page of the blog plugin go to.  Readers who visit can also write down a quick comment for each post as well.
+
+Plugin reference - Not available yet
+
+**Note:** Right now for updating and destroying posts and comments are dependent on the django admin plugin.  Currently a backlog item todo for admins.
+
+**Note:** Might need a login registration plugin later on but for now Django admin is fine for now.
+
 ## tag plugin
 The package is called django-tags.
 
 The tag app is really useful for SEO purposes and grouping content together.  It can be used for blogs, stores, crm, cms, etc.
 
-In this app you are able to create, read, and destroy tags in the database.  No updating once it's made, it's made.
+In this app you are able to create, read, and destroy tags in the database.  No updating once it's made.
 
 External Repo
 
