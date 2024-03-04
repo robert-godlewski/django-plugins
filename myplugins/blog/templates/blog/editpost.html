@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Update Post</h1>
+    <form method="POST" action="{% url 'updatepost' post.slug %}">
+        {% csrf_token %}
+        <input type="hidden" value="{{request.user}}">
+        <div class="col">
+            <label>{{form.title.label}}:</label>
+            <input type="text" name="title" value="{{post.title}}">
+        </div>
+        <div class="col">
+            <label>{{form.subtitle.label}}:</label>
+            <input type="text" name="subtitle" value="{{post.subtitle}}">
+        </div>
+        <div class="col">
+            <div>
+                <label>{{form.publish_date.label}}:</label>
+                {{form.publish_date}}
+            </div>
+            <div>
+                <label>{{form.featured.label}}:</label>
+                {{form.featured}}
+            </div>
+            <div class="col">
+                <label>{{form.comments_disabled.label}}</label>
+                {{form.comments_disabled}}
+            </div>
+            <div class="col">
+                <label>{{form.hide_details.label}}</label>
+                {{form.hide_details}}
+            </div>
+        </div>
+        <div class="col">
+            <label>Content:</label>
+            {{form.content}}
+        </div>
+        <div class="col">
+            <label>Categories: </label>
+            {{form.category}}
+        </div>
+        <button class="btn btn-primary" type="submit">Update Post</button>
+        <a href="{% url 'onepost' post.slug %}" class="btn btn-warning">Cancel</a>
+    </form>
+</div>
+{% endblock %}

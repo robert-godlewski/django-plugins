@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load markdown_extras %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+{# <p>Slug = {{post.slug}}</p> #}
+<div>
+    <h1>{{post.title}}</h1>
+    <h3>{{post.subtitle}}</h3>
+    <h6>
+        {% if post.published and post.publish_date and post.updated_at != post.publish_date and not post.hide_details%}
+            <span>Updated on: {{post.updated_at|date:"M d, Y"}}</span>
+        {% elif post.published and post.publish_date and not post.hide_details%}
+            <span>Published on: {{post.publish_date|date:"M d, Y"}}</span>
+        {# Only temporary #}
+        {% elif not post.hide_details %}
+            <span>Created on: {{post.created_at|date:"M d, Y"}}</span>
+        {% endif %}
+        <span> by {{post.author.username}}</span>
+        {% if post.featured and not post.hide_details %}
+            <span> - FEATURED</span>
+        {% endif %}
+    </h6>
+    {% if post.author == user %}
+        <!-- <p>
+            <span>Actions: </span>
+            {# <a href="{% url 'editpost' post.slug %}">edit post</a> #}
+            <span> | </span>
+            {# <a href="{% url 'deletepost' post.slug %}">delete post</a> #}
+        </p> -->
+    {% endif %}
+    <p>{{post.content | markdown | safe}}</p>
+</div>
+<div>
+    <a href="{% url 'blogs' %}" class="btn btn-secondary">Return to Blogs</a>
+    {% if not post.comments_disabled %}
+        <h5>Create a Comment</h5>
+        {# Add in the form here #}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="col">
+                <label>{{form.name.label}}: </label>
+                {{form.name}}
+            </div>
+            <div class="col">
+                <label>{{form.email.label}}:</label>
+                {{form.email}}
+            </div>
+            <div class="col">
+                {{form.content}}
+            </div>
+            <button class="btn btn-primary" type="submit">Comment</button>
+        </form>
+        <h5>Comments</h5>
+        {# Need to add in the create comment form here instead of the button #}
+        {% if comments %}
+            {% for comment in comments %}
+                <div style="border: 1px black solid;">
+                    <div>
+                        <p>
+                            <a href="mailto:{{comment.email}}">{{comment.name}}</a>
+                            <span> said {{comment.updated_at|timesince}}:</span>
+                        </p>
+                        <p>{{comment.content}}</p>
+                    </div>
+                    {# Allow editing and deleting here #}
+                    {# {% if author == comment.author %} #}
+                        <!-- <div>
+                            {# <a href="{% url 'editcomment' post.slug comment.id %}">Edit</a> #}
+                            <span> | </span>
+                            {# <a href="{% url 'deletecomment' post.slug comment.id %}">Delete</a> #}
+                        </div> -->
+                    {# {% endif %} #}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>There are no comments right now.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

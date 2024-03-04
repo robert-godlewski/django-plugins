@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Edit comment{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Update comment</h1>
+    <form method="POST" action="{% url 'updatecomment' post_slug comment.id %}">
+        {% csrf_token %}
+        <input type="hidden" value="{{request.user}}">
+        <input type="hidden" value="{{comment.author}}">
+        <input type="hidden" value="{{comment.post}}">
+        {{form.content}}
+        <button class="btn btn-primary" type="submit">Update comment</button>
+        <a href="{% url 'onepost' post_slug %}" class="btn btn-warning">Cancel</a>
+    </form>
+</div>
+{% endblock %}

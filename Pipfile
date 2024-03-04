@@ -4,11 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==4.2.4"
-django-rest-framework = "*"
+django = "==5.0.2"
+django-rest-framework = "==0.1.0"
 markdown = "==3.4.4"
 
 [dev-packages]
 
 [requires]
-python_version = "3.11"
+python_version = "3.12"
