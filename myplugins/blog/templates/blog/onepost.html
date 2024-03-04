@@ -25,9 +25,9 @@
     {% if post.author == user %}
         <!-- <p>
             <span>Actions: </span>
-            <a href="{% url 'editpost' post.slug %}">edit post</a>
+            {# <a href="{% url 'editpost' post.slug %}">edit post</a> #}
             <span> | </span>
-            <a href="{% url 'deletepost' post.slug %}">delete post</a>
+            {# <a href="{% url 'deletepost' post.slug %}">delete post</a> #}
         </p> -->
     {% endif %}
     <p>{{post.content | markdown | safe}}</p>
@@ -67,9 +67,9 @@
                     {# Allow editing and deleting here #}
                     {# {% if author == comment.author %} #}
                         <!-- <div>
-                            <a href="{% url 'editcomment' post.slug comment.id %}">Edit</a>
+                            {# <a href="{% url 'editcomment' post.slug comment.id %}">Edit</a> #}
                             <span> | </span>
-                            <a href="{% url 'deletecomment' post.slug comment.id %}">Delete</a>
+                            {# <a href="{% url 'deletecomment' post.slug comment.id %}">Delete</a> #}
                         </div> -->
                     {# {% endif %} #}
                 </div>

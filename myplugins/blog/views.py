@@ -11,59 +11,28 @@ from .forms import PostForm, CommentForm
 from .models import Category, Post, Comment
 
 
-# All published posts and draft posts for the logged in user
-def allblogs(request):
-    # Need to update all of the posts here for publishing
+# Used to update posts based off of the time
+# No real route for this is necessary fyi
+def auto_publish(request) -> None:
     end = timezone.datetime.now()
     start = end - timedelta(days=2)
     unpub_posts = Post.objects.filter(published=False, publish_date__range=(start, end))
     for dp in unpub_posts:
         dp.published = True
         dp.save()
-    # All posts
-    featured = Post.objects.filter(featured=True, published=True)
-    posts = Post.objects.filter(published=True)
-    posts.order_by('-publish_date')#[0:3]
-    categories = Category.objects.all()
-    # Take out all of the draft_posts and pub_posts from here to the user's detail page instead
-    #print(request.user)
-    if request.user.is_authenticated:
-        user = request.user
-        draft_posts = Post.objects.filter(author=user, published=False)
-        # Posts where the author = current user
-        pub_posts = Post.objects.filter(author=user, published=True)
-        pub_posts.order_by('-publish_date')
-    else:
-        user = None
-        draft_posts = []
-        pub_posts = []
-    context = {
-        'user': user,
-        'featured': featured,
-        'posts': posts,
-        'drafts': draft_posts,
-        'pub_posts': pub_posts,
-        'categories': categories,
-        'category_id': None
-    }
-    return render(request, 'blog/index.html', context)
 
-# Grabs all posts from the given id of a category
-def posts_by_category(request, id):
-    # Need to update all of the posts here for publishing
-    end = timezone.datetime.now()
-    start = end - timedelta(days=2)
-    unpub_posts = Post.objects.filter(published=False, publish_date__range=(start, end))
-    for dp in unpub_posts:
-        dp.published = True
-        dp.save()
-    category = Category.objects.filter(id=id)
-    featured = Post.objects.filter(featured=True, published=True, category=id)
-    posts = Post.objects.filter(published=True, category=id)
+# Used to gather the posts
+# No real rout for this is necessary fyi
+def blog_context_data(request, id=None) -> dict:
+    if id:
+        # category = Category.objects.filter(id=id)
+        featured = Post.objects.filter(featured=True, published=True, category=id)
+        posts = Post.objects.filter(published=True, category=id)
+    else:
+        featured = Post.objects.filter(featured=True, published=True)
+        posts = Post.objects.filter(published=True)
     posts.order_by('-publish_date')#[0:3]
     categories = Category.objects.all()
-    # Take out all of the draft_posts and pub_posts from here to the user's detail page instead
-    #print(request.user)
     if request.user.is_authenticated:
         user = request.user
         draft_posts = Post.objects.filter(author=user, published=False)
@@ -74,7 +43,7 @@ def posts_by_category(request, id):
         user = None
         draft_posts = []
         pub_posts = []
-    context = {
+    return {
         'user': user,
         'featured': featured,
         'posts': posts,
@@ -83,6 +52,21 @@ def posts_by_category(request, id):
         'categories': categories,
         'category_id': id
     }
+
+# All published posts and draft posts for the logged in user
+def allblogs(request):
+    # Need to update all of the posts here for publishing
+    auto_publish(request)
+    # All posts
+    context = blog_context_data(request)
+    return render(request, 'blog/index.html', context)
+
+# Grabs all posts from the given id of a category
+def posts_by_category(request, id: int):
+    # Need to update all of the posts here for publishing
+    auto_publish(request)
+    # All posts based off of the given id
+    context = blog_context_data(request,id)
     return render(request, 'blog/index.html', context)
 
 # Single post routes
@@ -168,7 +152,7 @@ def create_post(request):
         form = PostForm()
     return render(request, template_name='blog/createpost.html', context={'form': form})
 
-# Provides the form to update the form for later
+# Provides the form to update the form for later - Maybe fix this
 def edit_post(request, slug):
     if not request.user.is_authenticated:
         return redirect('/logout')
@@ -179,7 +163,7 @@ def edit_post(request, slug):
     }
     return render(request, template_name='blog/editpost.html', context=context)
 
-# Either saves the updates or redirects back to the editing form
+# Either saves the updates or redirects back to the editing form - Fix this
 def update_post(request, slug):
     if not request.user.is_authenticated:
         return redirect('/logout')
@@ -199,7 +183,7 @@ def update_post(request, slug):
     }
     return render(request, template_name='blog/editpost.html', context=context)
 
-# Asks the user if they actually want to delete one of their posts or not
+# Asks the user if they actually want to delete one of their posts or not - maybe fix this
 def delete_post(request, slug):
     if not request.user.is_authenticated:
         return redirect('/logout')
@@ -209,7 +193,7 @@ def delete_post(request, slug):
     }
     return render(request, template_name='blog/deletepost.html', context=context)
 
-# Actually removes the post from the database
+# Actually removes the post from the database - fix this
 def destroy_post(request, slug):
     if not request.user.is_authenticated:
         return redirect('/user/logout')
@@ -217,6 +201,7 @@ def destroy_post(request, slug):
     post.delete()
     return redirect('/')
 
+# Fix this
 def edit_comment(request, post_slug, comment_id):
     if not request.user.is_authenticated:
         return redirect('/logout')
@@ -234,6 +219,7 @@ def edit_comment(request, post_slug, comment_id):
     }
     return render(request, template_name='blog/editcomment.html', context=context)
 
+# Fix this
 def update_comment(request, post_slug, comment_id):
     if not request.user.is_authenticated:
         return redirect('/logout')
@@ -250,6 +236,7 @@ def update_comment(request, post_slug, comment_id):
     }
     return render(request, 'blog/editcomment.html', context=context)
 
+# Fix this
 def delete_comment(request, post_slug, comment_id):
     if not request.user.is_authenticated:
         return redirect('/logout')
@@ -261,6 +248,7 @@ def delete_comment(request, post_slug, comment_id):
     }
     return render(request, template_name='blog/deletecomment.html', context=context)
 
+# Fix this
 def destroy_comment(request, post_slug, comment_id):
     if not request.user.is_authenticated:
         return redirect('/logout')

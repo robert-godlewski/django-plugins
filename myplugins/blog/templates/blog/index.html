@@ -28,7 +28,7 @@
                 <a href="{% url 'onepost' draft.slug %}"><h5>{{draft.title}}</h5></a>
                 <p>By {{draft.author.username}}</p>
                 <p><strong>{{draft.subtitle}}</strong></p>
-                <!-- <a href="{% url 'editpost' draft.slug %}">edit post</a> -->
+                {# <!-- <a href="{% url 'editpost' draft.slug %}">edit post</a> --> #}
             </div>
         {% endfor %}
     {% endif %}
@@ -40,7 +40,7 @@
                 <a href="{% url 'onepost' post.slug %}"><h5>{{post.title}}</h5></a>
                 <p>{{post.updated_at|date:"M d, Y"}} ({{post.updated_at|timesince}} ago) by {{post.author.username}}</p>
                 <p><strong>{{post.subtitle}}</strong></p>
-                <!-- <a href="{% url 'editpost' post.slug %}">edit post</a> -->
+                {# <!-- <a href="{% url 'editpost' post.slug %}">edit post</a> --> #}
             </div>
         {% endfor %}
     {% elif user and user.is_staff %}
@@ -57,7 +57,7 @@
                 <p>{{feat.updated_at|date:"M d, Y"}} ({{feat.updated_at|timesince}} ago) by {{feat.author.username}}</p>
                 <p><strong>{{feat.subtitle}}</strong></p>
                 {% if user.is_authenticated and feat.author == user %}
-                    <!-- <a href="{% url 'editpost' feat.slug %}">edit post</a> -->
+                    {# <!-- <a href="{% url 'editpost' feat.slug %}">edit post</a> --> #}
                 {% endif %}
             </div>
         {% endfor %}
@@ -70,7 +70,7 @@
             <p>On {{post.updated_at|date:"M d, Y"}} ({{post.updated_at|timesince}} ago) by {{post.author.username}}</p>
             <p><strong>{{post.subtitle}}</strong></p>
             {% if user.is_authenticated and post.author == user %}
-                <!-- <a href="{% url 'editpost' post.slug %}">edit post</a> -->
+                {# <!-- <a href="{% url 'editpost' post.slug %}">edit post</a> --> #}
             {% endif %}
         </div>
         {% endfor %}
