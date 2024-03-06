@@ -5,11 +5,11 @@
 
 {% block content %}
 {# <p>Slug = {{post.slug}}</p> #}
-<div>
+<div class="container text-center">
     <h1>{{post.title}}</h1>
-    <h3>{{post.subtitle}}</h3>
+    <h2>{{post.subtitle}}</h2>
     <h6>
-        {% if post.published and post.publish_date and post.updated_at != post.publish_date and not post.hide_details%}
+        {% if post.published and post.publish_date and post.updated_at != post.publish_date and not post.hide_details %}
             <span>Updated on: {{post.updated_at|date:"M d, Y"}}</span>
         {% elif post.published and post.publish_date and not post.hide_details%}
             <span>Published on: {{post.publish_date|date:"M d, Y"}}</span>
@@ -32,31 +32,35 @@
     {% endif %}
     <p>{{post.content | markdown | safe}}</p>
 </div>
-<div>
-    <a href="{% url 'blogs' %}" class="btn btn-secondary">Return to Blogs</a>
+<div class="container row text-center">
     {% if not post.comments_disabled %}
-        <h5>Create a Comment</h5>
-        {# Add in the form here #}
-        <form method="POST">
-            {% csrf_token %}
-            <div class="col">
-                <label>{{form.name.label}}: </label>
-                {{form.name}}
-            </div>
-            <div class="col">
-                <label>{{form.email.label}}:</label>
-                {{form.email}}
-            </div>
-            <div class="col">
-                {{form.content}}
-            </div>
-            <button class="btn btn-primary" type="submit">Comment</button>
-        </form>
+        <div class="border row mx-md-2 my-1 px-md-2 py-1">
+            <h5 class="col">Create a Comment</h5>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="col my-1">
+                    <label>{{form.name.label}}: </label>
+                    {# <!-- {{form.name}} --> #}
+                    <input type="text" name="name" id="id_name" class="border"/>
+                </div>
+                <div class="col my-1">
+                    <label>{{form.email.label}}:</label>
+                    {# <!-- {{form.email}} --> #}
+                    <input type="email" name="email" id="id_email" class="border"/>
+                </div>
+                <div class="col border my-1">
+                    {# <!-- {{form.content}} --> #}
+                    <textarea name="content" id="id_content" cols="30" rows="4"></textarea>
+                </div>
+                <button class="btn btn-primary my-1" type="submit">Comment</button>
+                <a href="{% url 'blogs' %}" class="btn btn-secondary my-1">Return to Blogs</a>
+            </form>
+        </div>
         <h5>Comments</h5>
         {# Need to add in the create comment form here instead of the button #}
         {% if comments %}
             {% for comment in comments %}
-                <div style="border: 1px black solid;">
+                <div class="container border my-2">
                     <div>
                         <p>
                             <a href="mailto:{{comment.email}}">{{comment.name}}</a>

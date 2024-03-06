@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 # Use these for testing only
-# from blog.views import allblogs
+from blog.views import allblogs
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +25,5 @@ urlpatterns = [
     path('tag/', include('tag.urls')),
     path('crm/', include('crm.urls')),
     # Use home route for testing
-    # path('', allblogs)
+    path('', allblogs)
 ]
